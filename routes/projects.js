@@ -4,9 +4,9 @@ const verifyToken = require('../middleware/auth');
 
 const {create, getOne, deleteProject, updateProject}  = require('../controllers/projectControllers')
 
-router.post('/', create)
-router.get('/:project_name', getOne)
-router.delete('/', deleteProject)
-router.put('/', updateProject)
+router.post('/', verifyToken, create)
+router.get('/:project_name', verifyToken, getOne)
+router.delete('/', verifyToken, deleteProject)
+router.put('/', verifyToken, updateProject)
 
 module.exports = router;

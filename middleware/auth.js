@@ -2,16 +2,16 @@ const jwt = require('jsonwebtoken');
 
 // module.exports = (id) => jwt.verify({id}, process.env.TOKEN_SECRET, {expiresIn : '12h'})
 
-function verifyToken(req, res, next) {
-    const token = req.headers["x-access-token"];
-    if (!token) return res.sendStatus(403);
+module.exports =verifyToken = (req, res, next)=> {
+    const token = req.header("x-access-token");
 
-    jwt.verify({id}, process.env.TOKEN_SECRET, (err, user) => {
+    if (!token) return res.status(401).send({message: "Access denied. no token provided"});
 
-        if (err) return res.sendStatus(404);
-        req.user = user;
+    try {
+        const data = jwt.verify(token, process.env.TOKEN_SECRET);
+        req.user = data;
         next();
-    });
+    } catch (error) {
+        res.status(400).send({message: "Invalid token"})
+    }
 }
-
-module.exports = verifyToken;

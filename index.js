@@ -4,6 +4,7 @@ const app = express();
 
 const userRoute = require('./routes/user')
 const projectRoute = require('./routes/projects')
+const taskRoute = require('./routes/task')
 
 
 app.use(express.urlencoded({extended : false}));
@@ -11,6 +12,7 @@ app.use(express.json());
 
 app.use('/users', userRoute);
 app.use('/project', projectRoute);
+app.use('/tasks', taskRoute);
 
 
 
