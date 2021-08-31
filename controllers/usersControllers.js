@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const hashPasswords = require('../helpers/hash');
+// const hashPasswords = require('../helpers/hash');
 const conn = require('../config/db');
 const gentoken = require('../helpers/generateToken');
 const Joi = require('joi');
@@ -26,7 +26,7 @@ module.exports = {
             }
             if(result[0]) return res.status(400).json({message:"User exists"})
 
-            conn.query('INSERT INTO user (username, password) values (?,?,?)', [username, pass], async (err, result) =>{
+            conn.query('INSERT INTO user (username, password) values (?,?)', [username, pass], async (err, result) =>{
                 if(err){
                     return res.status(400).json(err.message);
                 }
