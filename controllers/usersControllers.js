@@ -1,12 +1,11 @@
 const bcrypt = require('bcrypt');
-// const hashPasswords = require('../helpers/hash');
 const conn = require('../config/db');
 const gentoken = require('../helpers/generateToken');
 const Joi = require('joi');
 
 module.exports = {
     create: async (req, res) =>{   
-        const schema = Joi.object().keys({
+            const schema = Joi.object().keys({
             username: Joi.string().min(6).required(),
             password: Joi.string().min(8).required()
         })
@@ -109,7 +108,7 @@ module.exports = {
         const salt = await bcrypt.genSalt(10);
         const pass =  await bcrypt.hash(password, salt);
     
-        conn.query('UPDATE user SET username = ? , password = ? WHERE id = ? ' , [username, pass, id] , async(err, result) =>{
+        conn.query('UPDATE user SET username = ? , password = ? WHERE username = ? ' , [username, pass, id] , async(err, result) =>{
     
             if(err){
                 console.log(err);

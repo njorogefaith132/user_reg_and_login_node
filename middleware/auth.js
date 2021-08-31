@@ -1,7 +1,5 @@
 const jwt = require('jsonwebtoken');
 
-// module.exports = (id) => jwt.verify({id}, process.env.TOKEN_SECRET, {expiresIn : '12h'})
-
 module.exports =verifyToken = (req, res, next)=> {
     const token = req.header("x-access-token");
 
