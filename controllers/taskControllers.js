@@ -15,19 +15,19 @@ module.exports = {
         
         const {project_id, task} = req.body;
 
-        conn.query("SELECT * FROM project where project_id = ? LIMIT 1",[project_id], async (err, result) =>{
+        conn.query("SELECT * FROM project.project_list where project_id = ? LIMIT 1",[project_id], async (err, result) =>{
             if(err){
                 return res.status(400).json(err.message);
             }
             if(!result[0]) return res.status(400).json({message:"Project does not exists"})
     
 
-            conn.query('INSERT INTO project_tasks (task, project_id) values (?,?)', [task, project_id], async (err, result) =>{
+            conn.query('INSERT INTO project.tasks (task, project_id) values (?,?)', [task, project_id], async (err, result) =>{
                 if(err){
                     return res.status(400).json(err.message);
                 }
                 
-                conn.query("SELECT * FROM project_tasks WHERE task = ?",[task], (err, result)=>{
+                conn.query("SELECT * FROM project.tasks WHERE task = ?",[task], (err, result)=>{
                     if(err){
                         return res.status(400).json(err.message);
                     }
@@ -44,7 +44,7 @@ module.exports = {
 
     getOne: (req, res) =>{
         const {task} = req.params;         
-        conn.query("SELECT * FROM project_tasks where task = ? LIMIT 1",[task], async (err, result) =>{
+        conn.query("SELECT * FROM project.tasks where task = ? LIMIT 1",[task], async (err, result) =>{
                 if(err){
                     console.log(err);
                     return res.json(err.message);
@@ -56,7 +56,7 @@ module.exports = {
     deleteTask: (req,res) =>{
         const {task} = req.body
 
-        conn.query("SELECT * FROM project_tasks where task = ? LIMIT 1",[task], async (err, result) =>{
+        conn.query("SELECT * FROM project.tasks where task = ? LIMIT 1",[task], async (err, result) =>{
             if(err){
                 console.log(err);
                 return res.json(err.message);
@@ -66,7 +66,7 @@ module.exports = {
             if(!result[0]) return res.status(400).json({message:"Task does not exists"})
 
     
-            conn.query('DELETE FROM project_tasks WHERE task=? ' , [task] , async(err, result) =>{
+            conn.query('DELETE FROM project.tasks WHERE task=? ' , [task] , async(err, result) =>{
         
                 if(err){
                     console.log(err);
@@ -83,7 +83,7 @@ module.exports = {
     updateTask: async (req,res) =>{
         const {id, task} = req.body
     
-        conn.query('UPDATE project_tasks SET task = ? WHERE task_id = ? ' , [task, id] , async(err, result) =>{
+        conn.query('UPDATE project.tasks SET task = ? WHERE task_id = ? ' , [task, id] , async(err, result) =>{
     
             if(err){
                 console.log(err);
@@ -91,7 +91,7 @@ module.exports = {
             }
            
 
-            conn.query("SELECT * FROM project_tasks WHERE task_id = ?",[id], (err, result)=>{
+            conn.query("SELECT * FROM project.tasks WHERE task_id = ?",[id], (err, result)=>{
                 if(err){
                     return res.status(400).json(err.message);
                 }

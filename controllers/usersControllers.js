@@ -19,18 +19,18 @@ module.exports = {
         
         const salt = await bcrypt.genSalt(10);
         const pass =  await bcrypt.hash(password, salt);
-          conn.query("SELECT * FROM user where username = ? LIMIT 1",[username], async (err, result) =>{
+          conn.query("SELECT * FROM users.user_list where username = ? LIMIT 1",[username], async (err, result) =>{
             if(err){
                 return res.status(400).json(err.message);
             }
             if(result[0]) return res.status(400).json({message:"User exists"})
 
-            conn.query('INSERT INTO user (username, password) values (?,?)', [username, pass], async (err, result) =>{
+            conn.query('INSERT INTO users.user_list (username, password) values (?,?)', [username, pass], async (err, result) =>{
                 if(err){
                     return res.status(400).json(err.message);
                 }
                 
-                conn.query("SELECT * FROM user WHERE username = ?",[username], (err, result)=>{
+                conn.query("SELECT * FROM users.user_list WHERE username = ?",[username], (err, result)=>{
                     if(err){
                         return res.status(400).json(err.message);
                     }
@@ -48,7 +48,7 @@ module.exports = {
 
     getOne: (req, res) =>{
         const {username} = req.params;         
-        conn.query("SELECT * FROM user where username = ? LIMIT 1",[username], async (err, result) =>{
+        conn.query("SELECT * FROM users.user_list where username = ? LIMIT 1",[username], async (err, result) =>{
                 if(err){
                     console.log(err);
                     return res.json(err.message);
@@ -69,7 +69,7 @@ module.exports = {
             return res.status(400).send({message: error.details[0].message});
         }
         const {username, password } = req.body
-          conn.query('SELECT * FROM user WHERE username = ? ',[username, password] ,async (err, result)=>{
+          conn.query('SELECT * FROM users.user_list WHERE username = ? ',[username, password] ,async (err, result)=>{
             if(err){
                 console.log(err);
                 return res.json(err.message);
@@ -92,7 +92,7 @@ module.exports = {
     deleteUser: (req,res) =>{
         const {username} = req.body
     
-        conn.query('DELETE FROM user WHERE username=? ' , [username] , async(err, result) =>{
+        conn.query('DELETE FROM users.user_list WHERE username=? ' , [username] , async(err, result) =>{
     
             if(err){
                 console.log(err);
@@ -108,13 +108,13 @@ module.exports = {
         const salt = await bcrypt.genSalt(10);
         const pass =  await bcrypt.hash(password, salt);
     
-        conn.query('UPDATE user SET username = ? , password = ? WHERE username = ? ' , [username, pass, id] , async(err, result) =>{
+        conn.query('UPDATE users.user_list SET username = ? , password = ? WHERE username = ? ' , [username, pass, id] , async(err, result) =>{
     
             if(err){
                 console.log(err);
                 return res.json(err.message);
             }
-            conn.query("SELECT * FROM user WHERE username = ?",[username], (err, result)=>{
+            conn.query("SELECT * FROM users.user_list WHERE username = ?",[username], (err, result)=>{
                 if(err){
                     return res.status(400).json(err.message);
                 }

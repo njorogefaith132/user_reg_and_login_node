@@ -14,13 +14,13 @@ module.exports = {
 
     const { project_name } = req.body;
     const { id } = req.user;
-    conn.query("SELECT * FROM project where project_name = ? LIMIT 1",[project_name], async (err, result) =>{
+    conn.query("SELECT * FROM project.project_list where project_name = ? LIMIT 1",[project_name], async (err, result) =>{
         if(err){
             return res.status(400).json(err.message);
         }
         if(result[0]) return res.status(400).json({message:"Project already exists"})
 
-            conn.query("INSERT INTO project (project_name, user_id) values (?,?)",
+            conn.query("INSERT INTO project.project_list (project_name, users_id) values (?,?)",
             [project_name, id],
             async (err, result) => {
                 if (err) {
@@ -28,7 +28,7 @@ module.exports = {
                 }
 
                 conn.query(
-                "SELECT * FROM project WHERE project_name = ?",
+                "SELECT * FROM project.project_list WHERE project_name = ?",
                 [project_name],
                 (err, result) => {
                     if (err) {
@@ -47,7 +47,7 @@ module.exports = {
   getOne: (req, res) => {
     const { project_name } = req.params;
     conn.query(
-      "SELECT * FROM project where project_name = ? LIMIT 1",
+      "SELECT * FROM project.project_list where project_name = ? LIMIT 1",
       [project_name],
       async (err, result) => {
         if (err) {
@@ -63,7 +63,7 @@ module.exports = {
     const { project_name } = req.body;
 
     conn.query(
-      "DELETE FROM project WHERE project_name=? ",
+      "DELETE FROM project.project_list WHERE project_name=? ",
       [project_name],
       async (err, result) => {
         if (err) {
@@ -79,7 +79,7 @@ module.exports = {
     const { id, project_name } = req.body;
 
     conn.query(
-      "UPDATE project SET project_name = ? WHERE project_id = ? ",
+      "UPDATE project.project_list SET project_name = ? WHERE project_id = ? ",
       [project_name, id],
       async (err, result) => {
         if (err) {
@@ -87,7 +87,7 @@ module.exports = {
           return res.json(err.message);
         }
         conn.query(
-          "SELECT * FROM project WHERE project_name = ?",
+          "SELECT * FROM project.project_list WHERE project_name = ?",
           [project_name],
           (err, result) => {
             if (err) {
