@@ -9,7 +9,7 @@ class Connection {
     try {
       const connection = new sql.ConnectionPool({
         server: "localhost",
-        database: "BikeStores",
+        database: "usersystem",
         driver: "msnodesqlv8",
         options: {
           trustServerCertificate: true,
@@ -27,12 +27,32 @@ class Connection {
     return results;
   };
 
-  exec = async (procName, data) => {
-    const results = await this.pool.request().execute(procName);
+  queryInput = async (input, query, options) => {
+    const results = await this.pool.request().input(input).query(query);
+    return results;
+  };
+
+  createRequest = (request, data = {}) => {
+    const keys = Object.keys(data);
+
+    keys.map((keyName) => {
+      const value = data[keyName];
+      request.input(keyName, value);
+    });
+
+    return request;
+  };
+
+  exec = async (procName, data = {}) => {
+    var request = this.pool.request();
+    request = this.createRequest(request, data);
+    const results = await request.execute(procName);
     return results;
   };
 }
 
 module.exports = {
   query: new Connection().query,
+  exec: new Connection().exec,
+  queryInput: new Connection().queryInput,
 };

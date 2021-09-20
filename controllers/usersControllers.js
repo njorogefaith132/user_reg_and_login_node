@@ -24,7 +24,7 @@ module.exports = {
                 return res.status(400).json(err.message);
             }
             if(result[0]) return res.status(400).json({message:"User exists"})
-
+            
             conn.query('INSERT INTO users.user_list (username, password) values (?,?)', [username, pass], async (err, result) =>{
                 if(err){
                     return res.status(400).json(err.message);
