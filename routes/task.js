@@ -1,11 +1,34 @@
 const express = require("express")
 const router = express.Router()
 
-const {create, getOne,deleteTask, updateTask} = require('../controllers/taskControllers')
+const { getOneTask , create, deleteTask, updateTask} = require("../contol/taskControllers")
 
-router.post('/' , verifyToken ,create)
-router.get('/:task' ,verifyToken, getOne)
-router.put('/' ,verifyToken,  updateTask)
-router.delete('/' ,verifyToken, deleteTask)
+
+router.post('/', verifyToken,(req, res)=>{
+    create(
+         req.body.projectname,
+         req.body.task
+
+         )
+})  
+router.get('/',verifyToken, (req, res)=>{
+    getOneTask(
+         req.body.task
+
+         )
+})  
+router.delete('/',verifyToken, (req, res)=>{
+    deleteTask(
+         req.body.task
+         )
+})  
+router.put('/', verifyToken, (req, res)=>{
+    updateTask(
+         req.body.taskid,
+         req.body.task
+
+         )
+})  
+
 
 module.exports = router
