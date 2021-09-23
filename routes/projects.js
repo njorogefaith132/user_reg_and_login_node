@@ -5,26 +5,41 @@ const verifyToken = require('../middleware/auth');
 const {create, getOneProject, deleteProject, updateProject}  = require('../contol/projectControllers')
 
 
-router.post('/', verifyToken, (req, res)=>{
+router.post('/create',verifyToken, (req, res)=>{
     create(
-         req.body.project_name,
+         req.body.projectname,
          req.body.username,
-         req.body.project_description
+         req.body.project_description ,(error, message) => {
+            if (error) return res.status(200).send({ message: error });
+            res.send({ message});
+    
+          });
 
-         )
+         
 })  
-router.get('/',verifyToken, (req, res)=>{
+
+
+router.get('/project',verifyToken, (req, res)=>{
     getOneProject(
-         req.body.project_name
+         req.body.project_name,(error, message) => {
+            if (error) return res.status(200).send({ message: error });
+            res.send({ message});
+    
+          });
+}) 
 
-         )
-})  
-router.delete('/',verifyToken, (req, res)=>{
+
+router.delete('/project',verifyToken, (req, res)=>{
     deleteProject(
-         req.body.project_name,
-         )
+         req.body.project_name,(error, message) => {
+            if (error) return res.status(200).send({ message: error });
+            res.send({ message});
+    
+          });
 })  
-router.put('/',verifyToken, (req, res)=>{
+
+
+router.put('/project',verifyToken, (req, res)=>{
     updateProject(
          req.body.projectname,
          req.body.projectid,
