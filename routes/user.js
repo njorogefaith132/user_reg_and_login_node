@@ -8,7 +8,7 @@ const Joi = require("joi");
 
 const { login, register, deleteUser } = require("../contol/userController");
 
-router.get("/login", (req, res) => {
+router.post("/login", (req, res) => {
   const schema = Joi.object().keys({
     username: Joi.string().min(6).required(),
     password: Joi.string().min(8).required(),
@@ -19,16 +19,15 @@ router.get("/login", (req, res) => {
   }
 
   login(req.body.username, req.body.password, (error, message) => {
-    if (error) return res.status(400).send({ message: error });
-    res.send({ message });
+    if (error) return res.status(200).send({ message: error });
+    res.send({ message});
   });
 });
 
 router.post("/register", (req, res) => {
   const schema = Joi.object().keys({
     username: Joi.string().min(6).required(),
-    password: Joi.string().min(8).required(),
-    project: Joi.string().min(5).required(),
+    password: Joi.string().min(8).required()
   });
 
   const { error } = schema.validate(req.body);
@@ -38,9 +37,8 @@ router.post("/register", (req, res) => {
   register(
     req.body.username,
     req.body.password,
-    req.body.project,
     (error, message) => {
-      if (error) return res.status(400).send({ message: error });
+      if (error) return res.status(200).send({ message: error });
       res.send({ message });
     }
   );

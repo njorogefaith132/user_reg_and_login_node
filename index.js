@@ -1,8 +1,8 @@
 require('dotenv').config();
 const express = require('express');
-const dbope = require('./contol/userController');
 const app = express();
 
+const cors = require('cors')
 
 const user = require('./routes/user');
 const projects = require('./routes/projects');
@@ -14,6 +14,7 @@ const tasks = require('./routes/task');
 
 app.use(express.urlencoded({extended : false}));
 app.use(express.json());
+app.use(cors())
 
 app.use('/users',  user)
 app.use('/user/project' , projects)

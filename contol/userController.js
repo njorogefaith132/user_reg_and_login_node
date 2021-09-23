@@ -5,7 +5,8 @@ const db = require("../db/dbConnection");
 module.exports = {
   login: async (username, password, done) => {
     try {
-      let results = await db.exec("getUser", { username });
+      let results = await db.exec("getUser", { username ,password});
+
       console.log(results.recordset);
 
       const user = results.recordset[0];
@@ -16,21 +17,20 @@ module.exports = {
 
       const token = gentoken(user.id)
 
-      done(null, { user, token});
+      done(null, { message: "Login Successfull",user, token});
     } catch (error) {
       done(error.message);
     }
   },
 
-  register: async (username, pass, project_name, done) => {
+  register: async (username, pass, done) => {
     const salt = await bcrypt.genSalt(10);
     const password = await bcrypt.hash(pass, salt);
     console.log({password});
     try {
       let results = await db.exec("postUsers", {
         username,
-        password,
-        project_name,
+        password
       });
       const user = results.recordset[0]
       const token = gentoken(user.id)
