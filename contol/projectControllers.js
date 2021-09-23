@@ -6,21 +6,25 @@ const db = require('../db/dbConnection');
 
 
 module.exports ={
-    create: async(project_name,username,project_description) =>{
+    create: async(projectname,username,project_description, done) =>{
         
         try {
     
             let results = await db
-            .exec("createProject" ,{project_name,username,project_description})
+            .exec("createProject" ,{projectname,username,project_description})
     
              console.log(results.recordset);
+             const project = results.recordset[0]
+             
+      done(null, { message: "Project Created successfully",project});
+
          } catch (error) {
-            console.log(error.message);
+            done(error.message);
          }
 
     },
 
-    getOneProject : async (projectname) =>{
+    getOneProject : async (projectname, done) =>{
     
         try {
     
@@ -28,13 +32,15 @@ module.exports ={
             .exec("getProject", { projectname})
     
              console.log(results.recordset);
+             const project = results.recordset[0]
+             done(null, {project})
          } catch (error) {
-            console.log(error.message);
+            done(error.message);
          }
 
 
     },
-    deleteProject : async (projectname) =>{
+    deleteProject : async (projectname, done) =>{
 
         try {
     
@@ -42,21 +48,24 @@ module.exports ={
             .exec("deleteProject", {projectname})
     
              console.log(results.recordset);
+             done(null, {messsage : "Project deleted Successfully"})
          } catch (error) {
-            console.log(error.message);
+            done(error.message);
          }
 
 
     },
-    updateProject : async (projectname, projectid, project_description) =>{
+    updateProject : async (projectname, projectid, project_description, done) =>{
         try {
     
             let results = await db
-            .exec("deleteProject", {projectname, projectid,project_description})
+            .exec("updateProject", {projectname, projectid,project_description})
     
              console.log(results.recordset);
+             const project = results.recordset[0]
+             done(null, {message: "Project Details Updated Successfully", project})
          } catch (error) {
-            console.log(error.message);
+            done(error.message);
          }
 
     }
