@@ -8,4 +8,7 @@ INSERT into project.project_list
 VALUES
 (@projectname, @username, @project_description,  CAST(GETDATE() AS DATE) )
 
+
+SELECT * from project.project_list WHERE project_name = @projectname
+
 GO
