@@ -1,4 +1,4 @@
-ALTER PROCEDURE updateProject(
+CREATE PROCEDURE updateProject(
 @username varchar(25)
 ,@projectname varchar (25)
 ,@projectid int
