@@ -2,7 +2,7 @@ CREATE PROCEDURE deleteTask(
 @task varchar (25))
 AS 
 BEGIN
-DELETE FROM project.tasks 
+UPDATE project.tasks SET isdeleted = 1
 	WHERE task = @task
-END 
+END
 GO

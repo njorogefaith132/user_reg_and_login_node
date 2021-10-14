@@ -1,8 +1,8 @@
-CREATE PROCEDURE deleteProject(
+ALTER PROCEDURE deleteProject(
 @projectname varchar (25))
-AS 
-BEGIN
-DELETE FROM project.project_list 
-	WHERE project_name = @projectname 
+AS
+BEGIN 
+UPDATE project.project_list SET isdeleted = 1
+	WHERE project_name = @projectname
 END
 GO

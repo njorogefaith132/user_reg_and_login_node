@@ -4,6 +4,6 @@ CREATE PROCEDURE getUser(
 AS 
 BEGIN
 SELECT * FROM users.users_list 
-	WHERE username = @username AND password = @password 
+	WHERE isdeleted = 0 AND username = @username AND password = @password 
 END
 GO

@@ -3,6 +3,6 @@ CREATE PROCEDURE getTask(
 AS 
 BEGIN
 SELECT TOP 1 * FROM project.tasks
-	WHERE task = @task
+	WHERE task = @task AND isdeleted = 0
 END
 GO

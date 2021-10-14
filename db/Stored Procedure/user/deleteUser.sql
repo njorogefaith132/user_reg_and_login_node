@@ -1,8 +1,8 @@
-CREATE PROCEDURE deleteUser(
+ALTER PROCEDURE deleteUser(
 @username varchar (25))
 AS 
 BEGIN
-DELETE FROM users.users_list 
+UPDATE users.users_list SET isdeleted = 1
 	WHERE username = @username 
 END
 GO
